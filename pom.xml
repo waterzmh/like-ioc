@@ -7,7 +7,42 @@
     <groupId>org.water.ioc</groupId>
     <artifactId>like-ioc</artifactId>
     <version>1.0.0-release</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
+    <properties>
+        <junit.version>4.12</junit.version>
+        <junit-jupiter.version>5.0.2</junit-jupiter.version>
+        <dom4j>1.6.1</dom4j>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit-jupiter.version}</version>
 
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+
+        </dependency>
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>${dom4j}</version>
+        </dependency>
+    </dependencies>
 </project>
