@@ -1,11 +1,11 @@
 package model;
 
 /**
- * @author mati
+ * @author water
  * @since 2018/9/20 11:15
  */
 public class Car {
-    private String name;
+    private String name = "benz";
     private String length;
     private String width;
     private String height;

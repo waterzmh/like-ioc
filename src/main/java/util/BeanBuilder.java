@@ -4,7 +4,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -12,17 +11,42 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author mati
+ * @author water
  * @since 2018/9/20 11:10
  */
 public class BeanBuilder {
 
-    private static Map<String, Object> objectMap = new HashMap<>();
+    public static Map<String, Object> beanMap = new HashMap<>();
 
-    public static void create() throws Exception {
-        loadXml();
+    /**
+     * 列出所有的bean
+     */
+    public static void listObj() throws IllegalAccessException {
+        for (Map.Entry<String, Object> entry : beanMap.entrySet()) {
+            System.out.println(entry.getKey());
+            Object object = entry.getValue();
+            Class objClass = object.getClass();
+            Field[] fields = objClass.getDeclaredFields();
+            for (Field field : fields) {
+                field.setAccessible(true);
+                System.out.print(field.getName() + "  " + field.get(object));
+                System.out.println();
+            }
+            System.out.println();
+        }
     }
 
+    /**
+     * 创建所有注解对象
+     */
+    public static void createAnotationObj() throws Exception {
+        loadXml();
+
+    }
+
+    /**
+     * 创建 xml中的bean对象
+     */
     private static void loadXml() throws Exception {
         SAXReader reader = new SAXReader();
         String url = BeanBuilder.class.getClassLoader().getResource("beans-demo.xml").getFile();
@@ -37,13 +61,17 @@ public class BeanBuilder {
         loadAllBeans(root);
     }
 
+    /**
+     * 加载所有的bean
+     * @param rootElement 文档源
+     */
     private static void loadAllBeans(Element rootElement) throws Exception {
         List<Element> beanElements = rootElement.elements("bean");
         if (beanElements == null) {
             return;
         }
         for (Element beanElement : beanElements) {
-            if (objectMap.get(beanElement.attributeValue("id")) != null) {
+            if (beanMap.get(beanElement.attributeValue("id")) != null) {
                 doThrow(new Exception("bean id不能重复"));
             }
             Class objectClass = null;
@@ -71,25 +99,7 @@ public class BeanBuilder {
                 }
             }
 
-            objectMap.put(beanElement.attributeValue("id"), object);
-        }
-    }
-
-    /**
-     * 列出所有的bean
-     */
-    public static void listObj() throws IllegalAccessException {
-        for (Map.Entry<String, Object> entry : objectMap.entrySet()) {
-            System.out.println(entry.getKey());
-            Object object = entry.getValue();
-            Class objClass = object.getClass();
-            Field[] fields = objClass.getDeclaredFields();
-            for (Field field : fields) {
-                field.setAccessible(true);
-                System.out.print(field.getName() + "  " + field.get(object));
-                System.out.println();
-            }
-            System.out.println();
+            beanMap.put(beanElement.attributeValue("id"), object);
         }
     }
 

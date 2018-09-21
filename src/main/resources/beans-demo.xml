@@ -1,5 +1,5 @@
 <beans>
-    <bean id="car" class="model.Car">
+    <bean id="benz" class="model.Car">
         <property name="name" value="Mercedes Benz G 500"/>
         <property name="length" value="4717mm"/>
         <property name="width" value="1855mm"/>

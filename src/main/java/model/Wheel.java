@@ -1,7 +1,7 @@
 package model;
 
 /**
- * @author mati
+ * @author water
  * @since 2018/9/20 11:15
  */
 public class Wheel {
